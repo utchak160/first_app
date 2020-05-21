@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './questions.dart';
+import './answer.dart';
 
 void main() => runApp(MyApp());
 
@@ -26,8 +27,14 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     var question = [
-      'How are you?',
-      'Where are you?'
+      {
+        'questionText': 'How are you?',
+        'answer': [ 'Fine', 'Good', 'Bad', 'Awesome']
+      },
+      {
+        'questionText': 'Where are you?',
+        'answer': [ 'Home', 'College', 'Gym']
+      },
     ];
     return MaterialApp(home: Scaffold(
       appBar: AppBar(
@@ -35,21 +42,12 @@ class _MyAppState extends State<MyApp> {
       ),
       body: Column(
         children: <Widget>[
-          Question(question[_questionIndex]),
-          RaisedButton(
-            child: Text('Answer 1'),
-            onPressed: _answerQuestion,
-          ),
-          RaisedButton(
-            child: Text('Answer 2'),
-            onPressed: () => {
-              print('Answer 2 chosen')
-            },
-          ),
-          RaisedButton(
-            child: Text('Answer 3'),
-            onPressed: () => print('Answer 3 chosen'),
-          ),
+          Question(question[_questionIndex]['questionText']
+      ),
+          ...(question[_questionIndex]['answer'] as List<String>)
+          .map((answer) {
+            return Answer(_answerQuestion, answer);
+          }).toList()
         ],
       ),
     ),
